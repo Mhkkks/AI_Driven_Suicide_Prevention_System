@@ -3,12 +3,8 @@ package ai.verse;
 
 import ai.verse.repo.PostEntity;
 import ai.verse.repo.PostRepository;
-import ai.verse.repo.StudentRepository;
-import ai.verse.repo.Studententity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,24 +24,8 @@ import java.util.Map;
 @RequestMapping("api")
 public class PostController {
 
-
-
     @Autowired
     PostRepository postRepository;
-
-
-    @Autowired
-    StudentRepository studentRepository;
-
-    @RequestMapping(value = "/getStudents", method = RequestMethod.GET)
-    public ResponseEntity<List<Studententity>> getStudents() {
-        List<Studententity> students = studentRepository.findAll();
-        System.out.println("-------------------STUDENT LIST IS :" + students);
-        return ResponseEntity.status(HttpStatus.OK).body(students);
-    }
-
-
-
 
     @GetMapping("/check")
     public String check() {
@@ -90,27 +70,8 @@ public class PostController {
         List list = postRepository.findAggregateData();
         System.out.println("-------------------LIST IS :" + list);
         return new ResponseEntity(list, HttpStatus.OK);
-    }
 
+    }}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
 
 

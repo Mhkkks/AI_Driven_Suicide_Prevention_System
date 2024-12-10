@@ -28,26 +28,12 @@ public class Sched {
     @Autowired
     PostRepository postRepository;
 
-    @Autowired
-    AadhaarRepository aadhaarRepository;
 
-    @Autowired
-    AQIRepository aqiRepository;
-
-    // Call this automatically every 10 seconds
-//@Scheduled(fixedRate = 10000)
-    public void testData() {
-        System.out.println(" --------------- testData Called on:" + new Date());
-        List data = aadhaarRepository.findAll();
-        System.out.println(data);
-    }
-
-
-  //  @Scheduled(fixedRate = 100000)
+  // @Scheduled(fixedRate = 100000)
     public void updateSentimentInDatabase() {
         System.out.println(" --------------- updateSentimentInDatabase Called on:" + new Date());
 
-        //  List<PostEntity> list = postRepository.findAll();  // Get all posts from database
+        //List<PostEntity> list = postRepository.findAll();  // Get all posts from database
         List<PostEntity> list = postRepository.findRowsWithNoSentiment();  // Lists posts with no sentiment
 
         System.out.println("--- NUMBER OF ROWS WITH NO SENTIMENT IS:  --->>" + list.size());
@@ -64,7 +50,7 @@ public class Sched {
     }
 
 
-        // @Scheduled(fixedRate = 100000)
+         @Scheduled(fixedRate = 100000)
     public void callFacebookAPI() {
         try {
             String accessToken = "EAA4uBIZCLHrEBO5GR1J320nZAi35erJndJdBz6TXx3joyjGipaszk1ZCBNZCIrAGTZBwJ8zmUZCoFdVeBEOlPD0br4AnZAz9TT8wpc3i21Y3ZBhNlORcVMVwdeKTRWUrRqRjZAaZBifkCtCZB7xOsMXmSIkC9ayQ3X3lWrZByDSq3H5B2J5ObVNTOzRAKKHVWjw7FwkEUrxCGPIP";
@@ -86,6 +72,8 @@ public class Sched {
             ArrayNode fbDataNode = (ArrayNode) fbDataJsonNode.get("data");
             ArrayNode fbInnerDataNode = (ArrayNode) fbDataNode.get(0).get("comments").get("data");
 
+            postRepository.deleteAll();
+
             List<PostEntity> postsList = new ArrayList<>(); // create an empty list
             for (int g = 0; g < fbInnerDataNode.size(); g++) {
                 System.out.println(fbInnerDataNode.get(g).get("message").asText());
@@ -94,11 +82,11 @@ public class Sched {
                 entity.setPost(fbInnerDataNode.get(g).get("message").asText());
                 postsList.add(entity);
             }
-
             postRepository.saveAll(postsList);
         } catch (Exception any) {
             any.printStackTrace();
         }
+             updateSentimentInDatabase();
     }
 
 

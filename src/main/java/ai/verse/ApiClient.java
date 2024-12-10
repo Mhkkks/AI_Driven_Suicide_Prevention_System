@@ -13,7 +13,7 @@ public class ApiClient {
         ApiClient api = new ApiClient();
 
         try {
-            //   api.callFacebookAPI();
+             api.callFacebookAPI();
             //  api.callWeatherAPI();
             //   api.getPM25Data();
         } catch (Exception any) {
