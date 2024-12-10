@@ -1,5 +1,4 @@
 package ai.verse;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -14,8 +13,8 @@ public class ApiClient {
 
         try {
              api.callFacebookAPI();
-            //  api.callWeatherAPI();
-            //   api.getPM25Data();
+            // api.callWeatherAPI();
+            // api.getPM25Data();
         } catch (Exception any) {
             any.printStackTrace();
         }
